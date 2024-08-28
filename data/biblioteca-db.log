@@ -1,0 +1,16 @@
+/*C1*/SET SCHEMA SYSTEM_LOBS
+INSERT INTO BLOCKS VALUES(0,2147483647,0)
+COMMIT
+/*C2*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C3*/SET SCHEMA PUBLIC
+create table IMAGES (ID varchar(32) not null, GALLERY varchar(32), image varbinary(16777216), primary key (ID))
+create table Item (codigo integer not null, descripcion varchar(40), fotos varchar(32), precioUnitario numeric(19,2), primary key (codigo))
+create table Maestro (id varchar(32) not null, anyo integer, fecha date, numero integer, observaciones varchar(255), porcentajeIVA integer, persona_numero integer not null, primary key (id))
+create table Maestro_detalles (Maestro_id varchar(32) not null, cantidad integer not null, item_codigo integer not null, precioUnitario numeric(19,2), detalles_ORDER integer not null, primary key (Maestro_id, detalles_ORDER))
+create table OXDISCUSSIONCOMMENTS (id varchar(32) not null, comment clob(16777216), discussionId varchar(32), time timestamp, userName varchar(30), primary key (id))
+create table Persona (numero integer not null, ciudad varchar(40), direccion varchar(40), foto varchar(32), nombre varchar(40), pais varchar(40), ubicacion varchar(50), primary key (numero))
+create index IDXbhlx4vunn24ym1tbrlgq8g30m on OXDISCUSSIONCOMMENTS (discussionId)
+alter table Maestro add constraint FKqqudv3svisryenq8ernguv0th foreign key (persona_numero) references Persona
+alter table Maestro_detalles add constraint FK4dykd43d9epn7af428i1wb9eu foreign key (item_codigo) references Item
+alter table Maestro_detalles add constraint FKk1diqsdurmmm7q8h3gf1rnlse foreign key (Maestro_id) references Maestro
